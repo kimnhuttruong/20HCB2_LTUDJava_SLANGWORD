@@ -161,7 +161,7 @@ class SlangWord implements Serializable {
             for(int i=0;i<dsSlangWord.size();i++){
                 if(dsSlangWord.get(i).id == null ? sw.id == null : dsSlangWord.get(i).id.equals(sw.id))
                 {
-                    System.out.println("Confirm Delete"+ dsSlangWord.get(i).id+" - "+ dsSlangWord.get(i).des);
+                    System.out.println("Confirm Delete "+ dsSlangWord.get(i).id+" - "+ dsSlangWord.get(i).des);
                     String loaiGhiDe="n";
                     System.out.print("vui long confirm:  'y'-yes , 'n'-no");
                     System.out.println("Loai: ");
@@ -189,7 +189,48 @@ class SlangWord implements Serializable {
         }
         return dsSlangWord;
     }
-    
+    static List<SlangWord>  chinhsuaSlangWord(List<SlangWord> dsSlangWord)throws IOException  {
+        SlangWord sw = new SlangWord();
+        try {
+            BufferedReader dataIn = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Nhap thong tin Slang word");
+            System.out.print("Nhap slang word: ");
+            sw.id = dataIn.readLine();
+            for(int i=0;i<dsSlangWord.size();i++){
+                if(dsSlangWord.get(i).id == null ? sw.id == null : dsSlangWord.get(i).id.equals(sw.id))
+                {
+                    System.out.println("Nhap thong tin Slang word chinh sua");
+                    System.out.print("Nhap slang word: ");
+                    sw.id = dataIn.readLine();
+                    System.out.print("Nhap defintion: ");
+                    sw.des = dataIn.readLine();
+                    String loaiGhiDe="n";
+                    System.out.println("confirm:  'y'-yes , 'n'-no ");
+                    System.out.print("Loai: ");
+                    loaiGhiDe = dataIn.readLine();
+                    switch (loaiGhiDe) {    
+                        case "y":
+                            dsSlangWord.get(i).des=sw.des;
+                            dsSlangWord.get(i).id=sw.id;
+                            System.out.println("Da chinh sua thanh cong");
+                            return dsSlangWord;
+                        case "n":   
+                            System.out.println("Da cancel");
+                            return dsSlangWord;
+                        default:
+                            System.out.println("Da cancel");
+                            return dsSlangWord;
+                        }   
+                }
+            }
+           
+            System.out.println("Slang word khong ton tai");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return dsSlangWord;
+        }
+        return dsSlangWord;
+    }
 
 
     public static void main(String args[]) throws Exception {
@@ -224,6 +265,10 @@ class SlangWord implements Serializable {
                     dsSlangWord=themSlangWord(dsSlangWord);
                     break;  
                 case "5":   
+                    System.out.println("Chinh sua slang word:");
+                    dsSlangWord=chinhsuaSlangWord(dsSlangWord);
+                    break;  
+                case "6":   
                     System.out.println("Xoa slang word:");
                     dsSlangWord=xoaSlangWord(dsSlangWord);
                     break;  
