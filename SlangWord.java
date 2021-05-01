@@ -73,11 +73,11 @@ class SlangWord implements Serializable {
                 if(dsSlangWord.get(i).id == null ? sw.id == null : dsSlangWord.get(i).id.equals(sw.id))
                 {
                     System.out.println("Result: "+dsSlangWord.get(i).des);
-                    return dsSlangWord.get(i).des;
+                    return sw.id;
                 }
             }
             System.out.println("Not found");
-            return "";
+            return sw.id;
         } catch (IOException e) {
             e.printStackTrace();
             return "";
@@ -116,11 +116,38 @@ class SlangWord implements Serializable {
 
         String inputFile = "slang.txt";
 //        writeListSlangWordBinary();
-
+        List<String> history=new ArrayList<>();
         List<SlangWord> dsSlangWord = new ArrayList<>();
         dsSlangWord= importCSV(inputFile);
-        timKiemTheoSlangWord(dsSlangWord);
-        timKiemTheoDefintion(dsSlangWord);
+        
+        BufferedReader dataIn = new BufferedReader(new InputStreamReader(System.in));
+        String chucNang="";
+        while(true){
+            System.out.print("Chon chuc nang: ");
+            chucNang = dataIn.readLine();
+            switch (chucNang) {    
+                case "1":
+                    String result=timKiemTheoSlangWord(dsSlangWord);
+                    if(result!="")
+                        history.add(result);
+                    break;  
+                case "2":    
+                    timKiemTheoDefintion(dsSlangWord);
+                    break; 
+                case "3":   
+                    System.out.println("History:");
+                    System.out.println(history.toString().replaceAll("]", "").substring(1));
+                    break;  //tùy ch?n    
+                default:
+                    System.out.println("Exit");
+                    return;
+                    
+            }   
+           
+        
+        
+        }
+       
 //        dsSlangWord = readListSlangWordBinary();
 //        dsSlangWord = deleteSlangWord(dsSlangWord);
 //        dsSlangWord = addSlangWord(dsSlangWord);
