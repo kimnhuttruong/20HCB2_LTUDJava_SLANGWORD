@@ -84,6 +84,21 @@ class SlangWord implements Serializable {
         }
 
     }
+    static SlangWord randomSlangWord(List<SlangWord> dsSlangWord)throws IOException  {
+        SlangWord sw = new SlangWord();
+        try {
+            BufferedReader dataIn = new BufferedReader(new InputStreamReader(System.in));
+            Random generator = new Random();
+            int value = generator.nextInt(dsSlangWord.size()) ;
+            
+            return dsSlangWord.get(value);
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
     static String timKiemTheoDefintion(List<SlangWord> dsSlangWord)throws IOException  {
         SlangWord sw = new SlangWord();
         List<String> dsSlangWordResult = new ArrayList<>();
@@ -271,7 +286,13 @@ class SlangWord implements Serializable {
                 case "6":   
                     System.out.println("Xoa slang word:");
                     dsSlangWord=xoaSlangWord(dsSlangWord);
-                    break;  
+                    break; 
+                case "8":   
+                    System.out.println("random slang word:");
+                     SlangWord sw = new SlangWord();
+                    sw=randomSlangWord(dsSlangWord);
+                     System.out.println(sw.id+" - "+sw.des);
+                    break; 
                 default:
                     System.out.println("Exit");
                     return;
