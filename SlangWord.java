@@ -157,6 +157,64 @@ class SlangWord implements Serializable {
         } System.out.print("tra loi sai");
         return false;
     }
+     static boolean  randomGameDefintion(List<SlangWord> dsSlangWord)throws IOException  {
+        SlangWord cauhoi = new SlangWord();
+        int traloi=4;
+        try {
+            BufferedReader dataIn = new BufferedReader(new InputStreamReader(System.in));
+            cauhoi=randomSlangWord(dsSlangWord);
+            List<SlangWord> dsDapAn = new ArrayList<>();
+            dsDapAn.add(cauhoi);
+            System.out.print("Cau hoi: "+ cauhoi.des);
+            for(int i=0;i<3;i++)
+            {
+                SlangWord dapan = new SlangWord();
+                dapan=randomSlangWord(dsSlangWord);
+                dsDapAn.add(dapan);
+            }
+            Collections.sort(dsDapAn, new Comparator<>(){
+
+                public int compare(SlangWord o1, SlangWord o2)
+                {
+                   return o1.id.compareTo(o2.id);
+                }
+              });
+            System.out.println("");
+            for(int i=0;i<4;i++)
+            {
+               System.out.println("Lua chon"+ (i+1)+": "+dsDapAn.get(i).id);
+            }
+            System.out.print("tra loi: ");
+            String nhap=dataIn.readLine();
+            switch (nhap) {    
+                        case "1":
+                            traloi= Integer.parseInt(nhap);
+                            break;
+                       case "2":
+                            traloi= Integer.parseInt(nhap);
+                           break;
+                        case "3":
+                            traloi= Integer.parseInt(nhap);
+                            break;
+                         case "4":
+                            traloi= Integer.parseInt(nhap);
+                            break;
+                        default:
+                            System.out.print("tra loi sai");
+                            return false;
+                        } 
+            if(dsDapAn.get(traloi-1).id == cauhoi.id)
+            {
+                System.out.print("tra loi dung");
+                return true;
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } System.out.print("tra loi sai");
+        return false;
+    }
     static String timKiemTheoDefintion(List<SlangWord> dsSlangWord)throws IOException  {
         SlangWord sw = new SlangWord();
         List<String> dsSlangWordResult = new ArrayList<>();
@@ -353,8 +411,9 @@ class SlangWord implements Serializable {
                     break; 
                  case "9":   
                     randomGameSlangWord(dsSlangWord);
-                   
-                   
+                    break; 
+                case "10":   
+                    randomGameDefintion(dsSlangWord);
                     break; 
                 default:
                     System.out.println("Exit");
