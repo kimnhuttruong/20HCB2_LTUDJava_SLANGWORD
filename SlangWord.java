@@ -64,6 +64,7 @@ class SlangWord implements Serializable {
         return dsSlangWord;
         }
     }
+    
     static String timKiemTheoSlangWord(List<SlangWord> dsSlangWord)throws IOException  {
         SlangWord sw = new SlangWord();
         try {
@@ -125,7 +126,7 @@ class SlangWord implements Serializable {
             System.out.println("");
             for(int i=0;i<4;i++)
             {
-               System.out.println("Lua chon"+ (i+1)+": "+dsDapAn.get(i).des);
+               System.out.println("Lua chon "+ (i+1)+": "+dsDapAn.get(i).des);
             }
             System.out.print("tra loi: ");
             String nhap=dataIn.readLine();
@@ -143,7 +144,7 @@ class SlangWord implements Serializable {
                             traloi= Integer.parseInt(nhap);
                             break;
                         default:
-                            System.out.print("Dap an sai");
+                            System.out.println("Dap an sai");
                             return false;
                         } 
             if(dsDapAn.get(traloi-1).des == cauhoi.des)
@@ -155,7 +156,7 @@ class SlangWord implements Serializable {
         catch (Exception e) {
             e.printStackTrace();
             return false;
-        } System.out.print("Dap an sai");
+        } System.out.println("Dap an sai");
         return false;
     }
     static boolean  randomGameDefintion(List<SlangWord> dsSlangWord)throws IOException  {
@@ -183,7 +184,7 @@ class SlangWord implements Serializable {
             System.out.println("");
             for(int i=0;i<4;i++)
             {
-               System.out.println("Lua chon"+ (i+1)+": "+dsDapAn.get(i).id);
+               System.out.println("Lua chon "+ (i+1)+": "+dsDapAn.get(i).id);
             }
             System.out.print("tra loi: ");
             String nhap=dataIn.readLine();
@@ -201,19 +202,19 @@ class SlangWord implements Serializable {
                             traloi= Integer.parseInt(nhap);
                             break;
                         default:
-                            System.out.print("tra loi sai");
+                            System.out.println("dap an sai");
                             return false;
                         } 
             if(dsDapAn.get(traloi-1).id == cauhoi.id)
             {
-                System.out.print("tra loi dung");
+                System.out.println("dap an dung");
                 return true;
             }
         } 
         catch (Exception e) {
             e.printStackTrace();
             return false;
-        } System.out.print("tra loi sai");
+        } System.out.println("dap an sai");
         return false;
     }
     static String timKiemTheoDefintion(List<SlangWord> dsSlangWord)throws IOException  {
@@ -254,8 +255,8 @@ class SlangWord implements Serializable {
                 {
                     System.out.println("Slang word da ton tai ");
                     String loaiGhiDe="n";
-                    System.out.print("vui long chon loai ghi de:  'o'-overwrite , 'd'-duplicate, 'n'-cancel ");
-                    System.out.println("Loai: ");
+                    System.out.println("vui long chon loai ghi de:  'o'-overwrite , 'd'-duplicate, 'n'-cancel ");
+                    System.out.print("Loai: ");
                     loaiGhiDe = dataIn.readLine();
                     switch (loaiGhiDe) {    
                         case "o":
@@ -295,8 +296,8 @@ class SlangWord implements Serializable {
                 {
                     System.out.println("Confirm Delete "+ dsSlangWord.get(i).id+" - "+ dsSlangWord.get(i).des);
                     String loaiGhiDe="n";
-                    System.out.print("vui long confirm:  'y'-yes , 'n'-no");
-                    System.out.println("Loai: ");
+                    System.out.println("vui long confirm:  'y'-yes , 'n'-no");
+                    System.out.print("Loai: ");
                     loaiGhiDe = dataIn.readLine();
                     switch (loaiGhiDe) {    
                         case "y":
@@ -363,19 +364,82 @@ class SlangWord implements Serializable {
         }
         return dsSlangWord;
     }
+    static void exportCSV(List<SlangWord> dsSlangWord) throws IOException {
+        List<List<String>> dataLines = new ArrayList<>();
+        for (int i = 0; i < dsSlangWord.size(); i++) {
+            SlangWord sw = dsSlangWord.get(i);
+            List<String> list = Arrays.asList(sw.id, sw.des);
+            dataLines.add(list);
+        }
+        String csvFile = "export.csv";
+        Writer out;
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFile))) {
+
+            for (List<String> rowData : dataLines) {
+                bw.write(String.join("`", rowData));
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    static void exportHistory(List<String> history) throws IOException {
+        List<String> dataLines = new ArrayList<>();
+        for (int i = 0; i < history.size(); i++) {
+            dataLines.add(history.get(i));
+        }
+        String csvFile = "history.csv";
+        Writer out;
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFile))) {
+
+            for (String rowData : dataLines) {
+                bw.write(rowData);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    static List<String> importHistory(String filename) throws IOException  {
+        List<String> dsHistory = new ArrayList<>();
+        String path = filename;
+
+        try (BufferedReader bir = new BufferedReader(new FileReader(path))) {
+            String line = bir.readLine();
+            while (line != null) {
+                try{
+                    dsHistory.add(line);
+                    line = bir.readLine();
+                }
+                catch(Exception e){
+                    
+                   
+                    line = bir.readLine();
+                }
+               
+        }
+        return dsHistory;
+        }
+        catch(IOException err)
+        {
+            return dsHistory;
+        }
+    }
 
 
     public static void main(String args[]) throws Exception {
         // CopyRight @ Kim Nhut Truong - 20424083 - 20HCB2
 
         String inputFile = "slang.txt";
-        
-//        writeListSlangWordBinary();
+        String historyFile = "history.csv";
+        String inputFileCSV = "export.csv";
         List<String> history=new ArrayList<>();
+        history=importHistory(historyFile);
         List<SlangWord> dsSlangWord = new ArrayList<>();
         List<SlangWord> dsSlangWordCopy = new ArrayList<>();
-        dsSlangWord= importCSV(inputFile);
-        
+        dsSlangWord= importCSV(inputFileCSV);
+        if(dsSlangWord.size()<=1)
+            dsSlangWord= importCSV(inputFile);
         BufferedReader dataIn = new BufferedReader(new InputStreamReader(System.in));
         String chucNang="";
         while(true){
@@ -405,7 +469,10 @@ class SlangWord implements Serializable {
                     break; 
                 case "3":   
                     System.out.println("History:");
-                    System.out.println(history.toString().replaceAll("]", "").substring(1));
+                    if(history.size()==0)
+                        System.out.println("khong co");
+                    else
+                        System.out.println(history.toString().replaceAll("]", "").substring(1));
                     break;   
                 case "4":   
                     System.out.println("Them slang word:");
@@ -421,7 +488,7 @@ class SlangWord implements Serializable {
                     break; 
                 case "7":   
                     System.out.println("reset slang word:");
-                    dsSlangWordCopy=dsSlangWord;
+                   dsSlangWord=importCSV(inputFile);
                     System.out.println("reset thanh cong");
                     break; 
                 case "8":   
@@ -436,7 +503,9 @@ class SlangWord implements Serializable {
                 case "10":   
                     randomGameDefintion(dsSlangWord);
                     break; 
-                case "11":   
+                case "11": 
+                    exportCSV(dsSlangWord);
+                    exportHistory(history);
                     System.out.println("Thoat.");
                     return;
                 default:
