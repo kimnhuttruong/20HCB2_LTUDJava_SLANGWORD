@@ -392,9 +392,6 @@ class SlangWord implements Serializable {
             System.out.println("10: Game trac nghiem tra loi cau hoi cua 1 slang word.");
             System.out.println("11: Thoat.");
             System.out.println("-----------------------------------------------------------------");
-            
-            
-            
             System.out.print("Chon chuc nang: ");
             chucNang = dataIn.readLine();
             switch (chucNang) {    
@@ -443,7 +440,7 @@ class SlangWord implements Serializable {
                     System.out.println("Thoat.");
                     return;
                 default:
-                    System.out.println("Chuc nang khong ton tai.");
+                    System.out.println("Chuc nang khong ton tai.Vui long chon chuc nang trong danh sach");
                     break;
             }   
         }
