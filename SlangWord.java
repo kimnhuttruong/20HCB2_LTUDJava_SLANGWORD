@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.*;
 
@@ -142,22 +143,22 @@ class SlangWord implements Serializable {
                             traloi= Integer.parseInt(nhap);
                             break;
                         default:
-                            System.out.print("tra loi sai");
+                            System.out.print("Dap an sai");
                             return false;
                         } 
             if(dsDapAn.get(traloi-1).des == cauhoi.des)
             {
-                System.out.print("tra loi dung");
+                System.out.println("Dap an dung");
                 return true;
             }
         } 
         catch (Exception e) {
             e.printStackTrace();
             return false;
-        } System.out.print("tra loi sai");
+        } System.out.print("Dap an sai");
         return false;
     }
-     static boolean  randomGameDefintion(List<SlangWord> dsSlangWord)throws IOException  {
+    static boolean  randomGameDefintion(List<SlangWord> dsSlangWord)throws IOException  {
         SlangWord cauhoi = new SlangWord();
         int traloi=4;
         try {
@@ -368,14 +369,32 @@ class SlangWord implements Serializable {
         // CopyRight @ Kim Nhut Truong - 20424083 - 20HCB2
 
         String inputFile = "slang.txt";
+        
 //        writeListSlangWordBinary();
         List<String> history=new ArrayList<>();
         List<SlangWord> dsSlangWord = new ArrayList<>();
+        List<SlangWord> dsSlangWordCopy = new ArrayList<>();
         dsSlangWord= importCSV(inputFile);
         
         BufferedReader dataIn = new BufferedReader(new InputStreamReader(System.in));
         String chucNang="";
         while(true){
+            System.out.println("-------------------Bang chuc nang--------------------------------");
+            System.out.println("1: Tim kiem theo slang word.");
+            System.out.println("2: Tim kiem theo definition, hien thi danh sach slang words.");
+            System.out.println("3: Hien thi lich su tim kiem slang word");
+            System.out.println("4: Them 1 lang word moi.");
+            System.out.println("5: Chinh sua 1 slang word.");
+            System.out.println("6: Xoa 1 slang word.");
+            System.out.println("7: Reset danh sach slangword goc.");
+            System.out.println("8: Random 1 slang word.");
+            System.out.println("9: Game trac nghiem tra loi cau hoi cua 1 slang word.");
+            System.out.println("10: Game trac nghiem tra loi cau hoi cua 1 slang word.");
+            System.out.println("11: Thoat.");
+            System.out.println("-----------------------------------------------------------------");
+            
+            
+            
             System.out.print("Chon chuc nang: ");
             chucNang = dataIn.readLine();
             switch (chucNang) {    
@@ -403,6 +422,11 @@ class SlangWord implements Serializable {
                     System.out.println("Xoa slang word:");
                     dsSlangWord=xoaSlangWord(dsSlangWord);
                     break; 
+                case "7":   
+                    System.out.println("reset slang word:");
+                    dsSlangWordCopy=dsSlangWord;
+                    System.out.println("reset thanh cong");
+                    break; 
                 case "8":   
                     System.out.println("random slang word:");
                      SlangWord sw = new SlangWord();
@@ -415,9 +439,12 @@ class SlangWord implements Serializable {
                 case "10":   
                     randomGameDefintion(dsSlangWord);
                     break; 
-                default:
-                    System.out.println("Exit");
+                case "11":   
+                    System.out.println("Thoat.");
                     return;
+                default:
+                    System.out.println("Chuc nang khong ton tai.");
+                    break;
             }   
         }
        
